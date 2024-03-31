@@ -1,0 +1,21 @@
+---
+- hosts: dev
+  become: true
+  tasks:
+    - name: installing httpd
+      yum:
+        name: httpd
+        state: present
+    - name: copying content file
+      copy:
+        src: /home/ec2-user/Ansible/static-web-files/index.html
+        dest: /var/www/html/
+    - name: start httpd service
+      service:
+        name: httpd
+        state: started
+    - name: enabling at boot time
+      systemd:
+        name: httpd
+        enabled: true
+          
